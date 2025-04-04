@@ -37,7 +37,6 @@ int getUserOption()
 /** Processess User Option*/
 void processUserOption(int userOption)
 {
-
     switch (userOption)
     {
     case 1:
@@ -64,35 +63,76 @@ void processUserOption(int userOption)
     }
 }
 
+/** enum class*/
 enum class orderBookType
 {
     bid,
     ask
 };
 
+/** orderBookEntry Type*/
+class orderBookEntry
+{
+public:
+    orderBookEntry(double _price,
+                   double _amount,
+                   string _timestamp,
+                   string _product,
+                   orderBookType _orderType)
+        : price(_price),
+          amount(_amount),
+          timestamp(_timestamp), // Clean way to write constructo.
+          product(_product),     // Preferred way.
+          orderType(_orderType)
+
+    {
+        // this->price = price;
+        // this->amount = amount;                                  4th Modification
+        // this->timestamp = timestamp;
+        // this->product = product;
+        // this->orderType = orderType;
+    }
+
+    double price;
+    double amount;
+    string timestamp;
+    string product;
+    orderBookType orderType;
+};
+
 int main()
 {
-    // there are hundreds or thousands of data rows which we are going to process.
-    // so, we just can't declare each time a different variable.
-    // Its best practice to use vectors,
 
-    vector<double> prices;
-    vector<double> amounts;
-    vector<string> timestamps;
-    vector<string> products;
-    vector<orderBookType> orderTypes;
+    // while (true)
+    // {
+    //     printMenu();
+    //     int userOption = getUserOption();                          Main Function - for 1st and 2nd versios
+    //     processUserOption(userOption);
+    // }
 
-    // Now, pass some data into relevant vectors using .push_back(//some data);
-    prices.push_back(5319.450228);
-    amounts.push_back(0.0020075);
-    timestamps.push_back("2020/03/17 17:01:24.884492");
-    products.push_back("BTC/USDT");
-    orderTypes.push_back(orderBookType::bid);
+    vector<orderBookEntry> orders;
+    orders.push_back(orderBookEntry(5319.450228, 0.0020075, "2020/03/17 17:01:24.884492", "BTC/USDT", orderBookType::bid));
+    orders.push_back(orderBookEntry(6000.450228, 0.00450075, "2020/03/17 17:01:24.884492", "BTC/USDT", orderBookType::ask));
 
-    while (true)
+    // Iterative Styel Loop
+    // for (orderBookEntry order : orders) //it creates a copy of each orders' object to order variable
+    // {                                   //then we process our data, to avoid that, use pass-by-reference
+    //     cout << order.price << endl;    // as orderBookEntry& and it would directly access the object
+    // }                                    //without creating its copy
+
+    // Array style loop
+    // for (unsigned int i = 0; i < orders.size(); ++i)     //unsigned int is used to save memory as
+    // {                                                    //signed int stores a bit for sign each time
+    //     cout << orders[i].price << endl;                 //and there are no negative indexes in vectors
+    // }                                                    //++i is the best practice as i++ creates copy
+    //                                                      // of i and there increase it by 1.
+    //                                                      //++i avoids it.
+
+    // Object Style Loop
+    for (unsigned int i = 0; i < orders.size(); ++i)
     {
-        printMenu();
-        int userOption = getUserOption();
-        processUserOption(userOption);
+        cout << orders.at(i).price << endl; //.at)() is useful for bound checking.
     }
+
+    return 0;
 }
