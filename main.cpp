@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <vector>
+
 using namespace std;
 
 /** Prints Menu */
@@ -62,8 +64,31 @@ void processUserOption(int userOption)
     }
 }
 
+enum class orderBookType
+{
+    bid,
+    ask
+};
+
 int main()
 {
+    // there are hundreds or thousands of data rows which we are going to process.
+    // so, we just can't declare each time a different variable.
+    // Its best practice to use vectors,
+
+    vector<double> prices;
+    vector<double> amounts;
+    vector<string> timestamps;
+    vector<string> products;
+    vector<orderBookType> orderTypes;
+
+    // Now, pass some data into relevant vectors using .push_back(//some data);
+    prices.push_back(5319.450228);
+    amounts.push_back(0.0020075);
+    timestamps.push_back("2020/03/17 17:01:24.884492");
+    products.push_back("BTC/USDT");
+    orderTypes.push_back(orderBookType::bid);
+
     while (true)
     {
         printMenu();
